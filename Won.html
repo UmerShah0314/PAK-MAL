@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAK MALL Saturday Tournament</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#2b1b00,#000);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    color:white;
+}
+
+.container{
+    width:100%;
+    max-width:1000px;
+    text-align:center;
+}
+
+h4{
+    color:#FFD700;
+    font-size:2rem;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    text-shadow:
+    0 0 10px #FFD700,
+    0 0 25px #FFD700;
+}
+
+.subtitle{
+    margin:15px 0 35px;
+    color:#ddd;
+    font-size:18px;
+}
+
+.gift-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.gift-box{
+    height:190px;
+    border-radius:20px;
+    cursor:pointer;
+    background:linear-gradient(145deg,#5A0000,#220000);
+    border:3px solid #FFD700;
+    position:relative;
+    overflow:hidden;
+    transition:.35s;
+    box-shadow:
+    0 0 20px rgba(255,215,0,.25);
+}
+
+.gift-box:hover{
+    transform:translateY(-8px) scale(1.03);
+    box-shadow:
+    0 0 25px rgba(255,215,0,.6),
+    0 0 50px rgba(255,215,0,.3);
+}
+
+.gift-box::before{
+    content:'';
+    position:absolute;
+    top:-100%;
+    left:-40%;
+    width:60%;
+    height:300%;
+    background:rgba(255,255,255,.12);
+    transform:rotate(25deg);
+    transition:.6s;
+}
+
+.gift-box:hover::before{
+    left:120%;
+}
+
+.mystery{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.question{
+    font-size:70px;
+    color:#FFD700;
+    text-shadow:
+    0 0 10px #FFD700,
+    0 0 25px #FFD700;
+}
+
+.label{
+    margin-top:10px;
+    color:#FFD700;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.open{
+    background:white !important;
+    color:#111;
+    font-size:30px;
+    font-weight:bold;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#result{
+    margin-top:30px;
+    padding:20px;
+    border-radius:15px;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.win{
+    background:#063d25;
+    border:2px solid #00ff88;
+    color:#00ff88;
+}
+
+.lose{
+    background:#4d0d0d;
+    border:2px solid #ff4d4d;
+    color:#ff8080;
+}
+
+@media(max-width:768px){
+
+    .gift-grid{
+        gap:15px;
+    }
+
+    .gift-box{
+        height:140px;
+    }
+
+    .question{
+        font-size:50px;
+    }
+
+    h1{
+        font-size:2rem;
+    }
+
+    .label{
+        font-size:12px;
+    }
+}
+#nextLevelBtn{
+    margin-top:20px;
+    padding:15px 35px;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    background:#FFD700;
+    color:#000;
+    cursor:not-allowed;
+    opacity:.5;
+}
+
+#nextLevelBtn.enabled{
+    opacity:1;
+    cursor:pointer;
+    box-shadow:0 0 20px #FFD700;
+}
+/* ========================= */
+/* TABLET */
+/* ========================= */
+@media(max-width:768px){
+
+.container{
+max-width:100%;
+}
+
+.gift-grid{
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.gift-box{
+height:140px;
+}
+
+.question{
+font-size:50px;
+}
+
+h4{
+font-size:1.5rem;
+}
+
+.subtitle{
+font-size:15px;
+}
+
+#nextLevelBtn{
+width:100%;
+max-width:300px;
+}
+
+}
+
+/* ========================= */
+/* MOBILE */
+/* ========================= */
+@media(max-width:480px){
+
+body{
+padding:10px;
+}
+
+h4{
+font-size:1.1rem;
+line-height:1.5;
+}
+
+.subtitle{
+font-size:14px;
+line-height:1.5;
+}
+
+.gift-grid{
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.gift-box{
+height:120px;
+border-radius:15px;
+}
+
+.question{
+font-size:40px;
+}
+
+.label{
+font-size:11px;
+}
+
+.open{
+font-size:22px;
+}
+
+#result{
+font-size:18px;
+padding:15px;
+}
+
+#nextLevelBtn{
+width:100%;
+font-size:16px;
+padding:14px;
+}
+
+}
+
+/* ========================= */
+/* SMALL MOBILE */
+/* ========================= */
+@media(max-width:320px){
+
+h4{
+font-size:1rem;
+}
+
+.subtitle{
+font-size:12px;
+}
+
+.gift-box{
+height:100px;
+}
+
+.question{
+font-size:30px;
+}
+
+.open{
+font-size:18px;
+}
+
+#result{
+font-size:15px;
+}
+
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h4>🎁If you don't win Rs.600, you can enjoy free shopping worth your winning amount</h4>
+
+<b class="subtitle">
+Choose 2 Mystery Box • Collect.600 To Unlock The Next Level
+</b><br><br><br>
+<button id="nextLevelBtn" disabled onclick="goToNextLevel()">
+    🚀 Next Level
+</button> <br><br><br>
+
+<div class="gift-grid">
+
+<div class="gift-box" onclick="openGift(0)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+<div class="gift-box" onclick="openGift(1)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+<div class="gift-box" onclick="openGift(2)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+<div class="gift-box" onclick="openGift(3)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+<div class="gift-box" onclick="openGift(4)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+<div class="gift-box" onclick="openGift(5)">
+<div class="mystery">
+<div class="question">?</div>
+<div class="label">MYSTERY BOX</div>
+</div>
+</div>
+
+</div>
+
+<div id="result"></div>
+</div>
+
+<script>
+
+
+/*if(localStorage.getItem("pakmallPlayed") === "yes"){
+
+    document.body.innerHTML = `
+    
+    <nav style="
+        background:#111;
+        padding:15px 30px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border-bottom:2px solid gold;
+    ">
+        <h2 style="color:gold;margin:0;">PAK MALL</h2>
+
+        <div>
+            <a href="index.html" style="color:white;text-decoration:none;margin:0 10px;">Home</a>
+            <a href="shop.html" style="color:white;text-decoration:none;margin:0 10px;">Shop</a>
+            <a href="contact.html" style="color:white;text-decoration:none;margin:0 10px;">Contact</a>
+        </div>
+    </nav>
+
+    <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:80vh;
+        color:white;
+        text-align:center;
+    ">
+        <h1>❌ Game Already Played</h1>
+        <p>You have already used your 2 turns.</p>
+        <p>🛍️ Continue shopping at PAK MALL.</p>
+    </div>
+
+    
+}*/
+// the end
+
+
+
+
+
+let openedCount = 0;
+
+let prizes = [50,100,150,200,300,600];
+prizes.sort(() => Math.random() - 0.5);
+
+function openGift(index){
+
+    if(openedCount >= 2) return;
+    
+
+    const boxes = document.querySelectorAll('.gift-box');
+    const box = boxes[index];
+
+    if(box.classList.contains('open')) return;
+
+    box.classList.add('open');
+    box.innerHTML = "Rs. " + prizes[index];
+
+    openedCount++;
+
+    const result = document.getElementById('result');
+
+   if(prizes[index] == 600){
+
+    result.className = "win";
+    result.innerHTML = "🏆 Congratulations!";
+
+    const btn = document.getElementById("nextLevelBtn");
+    btn.disabled = false;
+    btn.classList.add("enabled");
+}
+
+
+
+
+
+
+    if(openedCount == 2){
+// localStorage.setItem("pakmallPlayed","yes");                 one time ke lea
+
+
+
+
+
+
+
+
+        result.innerHTML += "<br><br>✅ Your 2 turns are completed.";
+
+        boxes.forEach(b => {
+            if(!b.classList.contains('open')){
+                b.style.opacity = "0.5";
+                b.style.cursor = "not-allowed";
+            }
+        });
+
+    }
+}
+
+function goToNextLevel(){
+
+    window.location.href = "level2.html";
+
+}
+
+
+</script>
+
+</body>
+</html>
